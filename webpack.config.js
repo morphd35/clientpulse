@@ -8,10 +8,10 @@ module.exports = (env) => {
     // Add polyfills for Supabase
     config.resolve.fallback = {
       ...config.resolve.fallback,
-      "crypto": require.resolve("crypto-browserify"),
-      "stream": require.resolve("stream-browserify"),
-      "url": require.resolve("url/"),
-      "buffer": require.resolve("buffer/")
+      'crypto': require.resolve('crypto-browserify'),
+      'stream': require.resolve('stream-browserify'),
+      'url': require.resolve('url/'),
+      'buffer': require.resolve('buffer/')
     };
 
     config.plugin('provide').use(webpack.ProvidePlugin, [{
