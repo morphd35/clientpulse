@@ -1,0 +1,14 @@
+<GridLayout rows="auto, *">
+    <SearchBar row="0" 
+               hint="Search accounts..." 
+               text="{{ searchQuery }}" 
+               class="mb-2" />
+    <ListView row="1" 
+             items="{{ accounts }}" 
+             itemTap="onAccountTap"
+             class="list-group">
+        <ListView.itemTemplate>
+            <account:AccountCard account="{{ $value }}" />
+        </ListView.itemTemplate>
+    </ListView>
+</GridLayout>

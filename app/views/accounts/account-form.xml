@@ -1,0 +1,65 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar title="{{ isEditing ? 'Edit Account' : 'New Account' }}">
+        <NavigationButton visibility="visible" />
+    </ActionBar>
+    
+    <ScrollView>
+        <StackLayout class="p-4">
+            <Label text="Business Information" class="text-xl font-bold mb-4" />
+            
+            <Label text="Business Name *" class="font-medium" />
+            <TextField text="{{ businessName }}" 
+                      hint="Enter business name" 
+                      class="input mb-4 p-4 border rounded" 
+                      padding="8" />
+            
+            <Label text="Contact Name" class="font-medium" />
+            <TextField text="{{ contactName }}" 
+                      hint="Enter contact name" 
+                      class="input mb-4 p-4 border rounded" 
+                      padding="8" />
+            
+            <Label text="Phone" class="font-medium" />
+            <TextField text="{{ phone }}" 
+                      hint="Enter phone number" 
+                      keyboardType="phone" 
+                      class="input mb-4 p-4 border rounded" 
+                      padding="8" />
+            
+            <Label text="Email" class="font-medium" />
+            <TextField text="{{ email }}" 
+                      hint="Enter email" 
+                      keyboardType="email" 
+                      class="input mb-4 p-4 border rounded" 
+                      padding="8" />
+            
+            <Label text="Address" class="font-medium" />
+            <TextField text="{{ address }}" 
+                      hint="Enter address" 
+                      class="input mb-4 p-4 border rounded" 
+                      padding="8" />
+            
+            <Label text="Account Type *" class="font-medium" />
+            <ListPicker items="{{ accountTypes }}" 
+                       selectedIndex="{{ selectedAccountTypeIndex }}" 
+                       class="mb-4 p-2" />
+            
+            <Label text="Notes" class="font-medium" />
+            <TextView text="{{ notes }}" 
+                     hint="Enter notes" 
+                     height="100" 
+                     class="input mb-4 p-4 border rounded" 
+                     padding="8" />
+            
+            <Button text="Save Account" 
+                    tap="onSaveAccount" 
+                    class="btn-primary" 
+                    isEnabled="{{ !isSaving }}" />
+            
+            <Label text="{{ error }}" 
+                   class="text-red-500 text-center" 
+                   visibility="{{ error ? 'visible' : 'collapsed' }}" 
+                   textWrap="true" />
+        </StackLayout>
+    </ScrollView>
+</Page>

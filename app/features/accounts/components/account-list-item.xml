@@ -1,0 +1,10 @@
+<GridLayout columns="*, auto" class="list-group-item p-4">
+    <StackLayout col="0">
+        <Label text="{{ businessName }}" class="font-bold text-lg" />
+        <Label text="{{ contactName }}" class="text-gray-600" />
+        <Label text="{{ formattedDate }}" class="text-sm text-gray-500" />
+    </StackLayout>
+    <Label col="1" text="{{ accountType }}" class="text-sm p-2 rounded-full"
+           backgroundColor="{{ accountType === 'active' ? '#dcfce7' : (accountType === 'prospect' ? '#fef9c3' : '#f3f4f6') }}"
+           color="{{ accountType === 'active' ? '#166534' : (accountType === 'prospect' ? '#854d0e' : '#4b5563') }}" />
+</GridLayout>

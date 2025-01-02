@@ -1,0 +1,20 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar title="Call List">
+        <NavigationButton visibility="visible" />
+    </ActionBar>
+    
+    <GridLayout>
+        <ListView items="{{ callList }}" itemTap="onItemTap">
+            <ListView.itemTemplate>
+                <GridLayout columns="*, auto" class="p-4 border-b border-gray-200">
+                    <StackLayout col="0">
+                        <Label text="{{ businessName }}" class="font-bold text-lg" />
+                        <Label text="{{ 'Last Contact: ' + lastContactDate }}" class="text-gray-600" />
+                        <Label text="{{ 'Priority: ' + priority }}" class="text-sm" color="{{ priorityColor }}" />
+                    </StackLayout>
+                    <Label col="1" text="📞" class="text-2xl" />
+                </GridLayout>
+            </ListView.itemTemplate>
+        </ListView>
+    </GridLayout>
+</Page>

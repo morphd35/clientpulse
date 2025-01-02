@@ -1,0 +1,22 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+  <ActionBar title="Today's Route">
+    <ActionItem tap="onOptimizeRoute" ios.position="right" android.position="actionBar">
+      <Label text="Optimize" />
+    </ActionItem>
+  </ActionBar>
+
+  <GridLayout>
+    <ListView items="{{ routeStops }}" itemTap="onStopTap">
+      <ListView.itemTemplate>
+        <GridLayout columns="auto, *" class="p-2">
+          <Label col="0" text="{{ index + 1 }}" class="mr-2 font-bold" />
+          <StackLayout col="1">
+            <Label text="{{ appointment.account.businessName }}" class="font-bold" />
+            <Label text="{{ appointment.date, date }}" class="text-gray-600" />
+            <Label text="{{ distance, 'Distance: ' + value + ' km' }}" class="text-sm text-gray-500" />
+          </StackLayout>
+        </GridLayout>
+      </ListView.itemTemplate>
+    </ListView>
+  </GridLayout>
+</Page>

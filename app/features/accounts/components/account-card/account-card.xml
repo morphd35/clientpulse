@@ -1,0 +1,12 @@
+<GridLayout columns="*, auto" class="account-card p-4 rounded-lg bg-white shadow-sm">
+    <StackLayout col="0">
+        <Label text="{{ businessName }}" class="font-bold text-lg" />
+        <Label text="{{ contactName }}" class="text-gray-600" />
+        <Label text="{{ formattedDate }}" class="text-sm text-gray-500" />
+    </StackLayout>
+    <Label col="1" 
+           text="{{ accountType }}" 
+           class="text-sm p-2 rounded-full"
+           backgroundColor="{{ typeColor.background }}"
+           color="{{ typeColor.text }}" />
+</GridLayout>

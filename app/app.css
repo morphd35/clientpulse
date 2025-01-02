@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+Page {
+    background-color: #FFFFFF;
+}
+
+ActionBar {
+    background-color: #1a237e;
+    color: #FFFFFF;
+}
+
+.page {
+    padding: 16;
+}
+
+.btn-primary {
+    background-color: #1a237e;
+    color: #FFFFFF;
+    padding: 12;
+    border-radius: 4;
+}
+
+GridLayout {
+    margin: 4;
+}
+
+Label {
+    text-align: center;
+}

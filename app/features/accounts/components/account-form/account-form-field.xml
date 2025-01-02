@@ -1,0 +1,11 @@
+<StackLayout class="form-field mb-4">
+    <Label text="{{ label }}" class="font-medium" />
+    <TextField text="{{ value }}" 
+               hint="{{ hint }}"
+               keyboardType="{{ keyboardType }}"
+               class="input p-2 border rounded" 
+               isEnabled="{{ !disabled }}" />
+    <Label text="{{ error }}" 
+           class="text-red-500 text-sm" 
+           visibility="{{ error ? 'visible' : 'collapsed' }}" />
+</StackLayout>

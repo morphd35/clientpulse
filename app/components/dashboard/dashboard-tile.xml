@@ -1,0 +1,7 @@
+<GridLayout class="dashboard-tile p-4 rounded-lg" tap="onTileTap">
+    <StackLayout>
+        <Label text="{{ icon }}" class="text-3xl mb-2" />
+        <Label text="{{ title }}" class="font-semibold" />
+        <Label text="{{ description }}" class="text-sm text-gray-600" textWrap="true" />
+    </StackLayout>
+</GridLayout>
