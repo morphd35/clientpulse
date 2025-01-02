@@ -22,10 +22,10 @@ export function useProfile() {
 
   async function fetchProfile() {
     try {
-      if (!user) throw new Error('User is null');
 
       setLoading(true);
       setError(null);
+      if (!user) throw new Error('No Authenticated User');
 
       const fetchedProfile = await profileService.getProfile(user.id);
       setProfile(fetchedProfile);
@@ -38,9 +38,12 @@ export function useProfile() {
   }
 
   async function updateProfile(updates: ProfileFormData) {
-    try {
-      if (!user) throw new Error('User is null');
+    if (!user) {
+      throw new Error('No Authenticated User')
+      return;
+    }
 
+    try {
       setLoading(true);
       setError(null);
 
