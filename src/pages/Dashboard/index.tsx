@@ -1,12 +1,4 @@
-import { Link } from 'react-router-dom';
-import { 
-  UserGroupIcon, 
-  CalendarIcon, 
-  MapIcon, 
-  PhoneIcon,
-  ClockIcon,
-  ChevronRightIcon
-} from '@heroicons/react/24/outline';
+import { } from '@heroicons/react/24/outline';
 import UpcomingAppointments from './components/UpcomingAppointments';
 import TodaysSummary from './components/TodaysSummary';
 import QuickActions from './components/QuickActions';

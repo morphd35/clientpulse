@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ProfileService } from '../services/profile.service';
-import type { Profile } from '../types/profile.types';
+import type { Profile, ProfileFormData } from '../types/profile.types';
 import { useAuth } from './useAuth';
 
 const profileService = new ProfileService();
@@ -24,17 +24,32 @@ export function useProfile() {
     try {
       setLoading(true);
       setError(null);
+      if (!user) {
+        throw new Error('User is null');
+      }
       const profile = await profileService.getProfile(user.id);
       setProfile(profile);
     } catch (err) {
       console.error('Profile error:', err);
-      setError(err.message);
+      if (err instanceof Error) {
+        if (err instanceof Error) {
+          if (err instanceof Error) {
+            setError(err.message);
+          } else {
+            setError(String(err));
+          }
+        } else {
+          setError(String(err));
+        }
+      } else {
+        setError(String(err));
+      }
     } finally {
       setLoading(false);
     }
   }
 
-  async function updateProfile(updates: Partial<Profile>) {
+  async function updateProfile(updates: ProfileFormData) {
     if (!user) {
       throw new Error('User is null');
     }

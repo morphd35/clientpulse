@@ -90,7 +90,7 @@ export default function AppointmentEditForm({ appointment, onComplete, onCancel 
 
   return (
     <>
-      <form onSubmit={(e) => handleSubmit(e)} className="space-y-6">
+      <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)} className="space-y-6">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div>
             <label htmlFor="date" className="block text-sm font-medium text-gray-700">
@@ -101,7 +101,7 @@ export default function AppointmentEditForm({ appointment, onComplete, onCancel 
               id="date"
               required
               value={formData.date}
-              onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, date: e.target.value })}
               min={new Date().toISOString().split('T')[0]}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             />
@@ -116,7 +116,7 @@ export default function AppointmentEditForm({ appointment, onComplete, onCancel 
               id="time"
               required
               value={formData.time}
-              onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, time: e.target.value })}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             />
           </div>
@@ -129,7 +129,7 @@ export default function AppointmentEditForm({ appointment, onComplete, onCancel 
               id="duration"
               required
               value={formData.duration}
-              onChange={(e) => setFormData({ ...formData, duration: parseInt(e.target.value) })}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFormData({ ...formData, duration: parseInt(e.target.value) })}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             >
               <option value={15}>15 minutes</option>
@@ -149,7 +149,7 @@ export default function AppointmentEditForm({ appointment, onComplete, onCancel 
               id="type"
               required
               value={formData.type}
-              onChange={(e) => setFormData({ ...formData, type: e.target.value as AppointmentType })}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFormData({ ...formData, type: e.target.value as AppointmentType })}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             >
               <option value="sales">Sales</option>
@@ -167,7 +167,7 @@ export default function AppointmentEditForm({ appointment, onComplete, onCancel 
             id="notes"
             rows={3}
             value={formData.notes}
-            onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFormData({ ...formData, notes: e.target.value })}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
           />
         </div>
@@ -199,7 +199,7 @@ export default function AppointmentEditForm({ appointment, onComplete, onCancel 
       <ConflictModal
         open={showConflictModal}
         onClose={() => setShowConflictModal(false)}
-        onConfirm={(e) => handleSubmit(e, true)}
+        onConfirm={(e: React.MouseEvent<HTMLButtonElement>) => handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>, true)}
         conflicts={conflicts}
       />
     </>

@@ -1,4 +1,21 @@
-import { loadScript } from '../../utils/script-loader';
+
+
+interface ImportMetaEnv {
+  VITE_GOOGLE_MAPS_API_KEY: string;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
+
+interface Window {
+  [key: string]: any;
+  _googleMapsCallback?: () => void;
+}
 
 export class GoogleMapsService {
   private static instance: GoogleMapsService;
@@ -32,10 +49,10 @@ export class GoogleMapsService {
     this.loadPromise = new Promise((resolve, reject) => {
       // Add callback to window object
       const callbackName = '_googleMapsCallback';
-      window[callbackName] = () => {
+      (window as Window)[callbackName] = () => {
         this.scriptLoaded = true;
         resolve();
-        delete window[callbackName];
+        delete (window as Window)[callbackName];
       };
 
       // Load the script
@@ -43,9 +60,9 @@ export class GoogleMapsService {
       script.src = `https://maps.googleapis.com/maps/api/js?key=${this.apiKey}&libraries=places&callback=${callbackName}`;
       script.async = true;
       script.defer = true;
-      
+
       script.onerror = () => {
-        delete window[callbackName];
+        delete (window as Window)[callbackName];
         reject(new Error('Failed to load Google Maps script'));
       };
 

@@ -1,7 +1,7 @@
 export type AccountType = 'active' | 'prospect' | 'inactive';
 
 export interface Account {
-  id?: number;
+  id?: string;
   business_name: string;
   contact_name: string | null;
   phone: string | null;
@@ -19,4 +19,6 @@ export interface Account {
   user_id?: string;
   created_at?: string;
   updated_at?: string;
+  [key: string]: string | number | null | undefined;
+
 }

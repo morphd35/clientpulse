@@ -64,7 +64,6 @@ export default function AppointmentForm({ onComplete }: AppointmentFormProps) {
       <ContactSelector
         onSelect={setSelectedContact}
         selectedContact={selectedContact}
-        onShowNewContact={() => { }}
       />
 
       {selectedContact && (

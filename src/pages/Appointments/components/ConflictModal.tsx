@@ -7,7 +7,7 @@ import type { Appointment } from '../../../types/appointment';
 interface ConflictModalProps {
   open: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (e: React.MouseEvent<HTMLButtonElement>) => void;
   conflicts: Appointment[];
 }
 
