@@ -1,13 +1,13 @@
 import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
+//import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Link, useLocation } from 'react-router-dom';
-import { 
+import {
   HomeIcon,
-  UserGroupIcon, 
-  CalendarIcon, 
-  MapIcon, 
-  PhoneIcon 
+  UserGroupIcon,
+  CalendarIcon,
+  MapIcon,
+  PhoneIcon
 } from '@heroicons/react/24/outline';
 
 const navigation = [

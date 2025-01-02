@@ -6,12 +6,14 @@ import NewContactForm from './NewContactForm';
 import { formatAddress } from '../../../utils/address';
 
 interface ContactSelectorProps {
-  onSelect: (contact: Account) => void;
-  onShowNewContact: () => void;
+  onSelect: (contact: Account | null) => void;
+  //onShowNewContact: () => void;
   selectedContact?: Account | null;
 }
 
-export default function ContactSelector({ onSelect, onShowNewContact, selectedContact }: ContactSelectorProps) {
+//export default function ContactSelector({ onSelect, onShowNewContact, selectedContact }: 
+export default function ContactSelector({ onSelect, selectedContact }:
+  ContactSelectorProps) {
   const { user } = useAuth();
   const [contacts, setContacts] = useState<Account[]>([]);
   const [searchQuery, setSearchQuery] = useState('');

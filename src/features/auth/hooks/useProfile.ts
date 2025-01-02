@@ -35,7 +35,10 @@ export function useProfile() {
   }
 
   async function updateProfile(updates: Partial<Profile>) {
-    if (!user) return;
+    if (!user) {
+      throw new Error('User is null');
+    }
+
 
     try {
       setLoading(true);

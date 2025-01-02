@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+//import { useState, useEffect } from 'react';
 import { useAuth } from '../../../features/auth/hooks/useAuth';
 import { supabase } from '../../../lib/supabase';
-import { Appointment, AppointmentType, AppointmentStatus } from '../../../types/appointment';
+import { Appointment, AppointmentType } from '../../../types/appointment';
+//import { Appointment, AppointmentType, AppointmentStatus } from '../../../types/appointment';
 import { checkForConflicts } from '../../../utils/appointment';
 import ConflictModal from './ConflictModal';
 

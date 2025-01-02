@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../../lib/supabase';
 import { useAuth } from '../../../features/auth/hooks/useAuth';
 import ContactSelector from './ContactSelector';
@@ -13,7 +13,7 @@ interface AppointmentFormProps {
 }
 
 export default function AppointmentForm({ onComplete }: AppointmentFormProps) {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const { user } = useAuth();
   const [selectedContact, setSelectedContact] = useState<Account | null>(null);
   const [formData, setFormData] = useState({
@@ -64,7 +64,7 @@ export default function AppointmentForm({ onComplete }: AppointmentFormProps) {
       <ContactSelector
         onSelect={setSelectedContact}
         selectedContact={selectedContact}
-        onShowNewContact={() => {}}
+        onShowNewContact={() => { }}
       />
 
       {selectedContact && (
