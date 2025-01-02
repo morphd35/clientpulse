@@ -20,19 +20,26 @@ export default function CallListTable({ accounts, sortConfig, onSort }: CallList
     if (sortConfig.key) {
       sorted.sort((a, b) => {
         if (sortConfig.key === 'daysSince') {
-          const daysA = differenceInDays(new Date(), new Date(a.last_contact_date));
-          const daysB = differenceInDays(new Date(), new Date(b.last_contact_date));
+          const daysA = a.last_contact_date
+            ? differenceInDays(new Date(), new Date(a.last_contact_date))
+            : Infinity;
+          const daysB = b.last_contact_date
+            ? differenceInDays(new Date(), new Date(b.last_contact_date))
+            : Infinity;
           return sortConfig.direction === 'asc' ? daysA - daysB : daysB - daysA;
         }
-        
+
         if (sortConfig.key === 'last_contact_date') {
-          return sortConfig.direction === 'asc' 
+          if (!a.last_contact_date || !b.last_contact_date) {
+            return sortConfig.direction === 'asc' ? -1 : 1;
+          }
+          return sortConfig.direction === 'asc'
             ? new Date(a.last_contact_date).getTime() - new Date(b.last_contact_date).getTime()
             : new Date(b.last_contact_date).getTime() - new Date(a.last_contact_date).getTime();
         }
-        
-        const aValue = a[sortConfig.key];
-        const bValue = b[sortConfig.key];
+
+        const aValue = a[sortConfig.key as keyof Account];
+        const bValue = b[sortConfig.key as keyof Account];
         if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
         if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
         return 0;
@@ -40,6 +47,14 @@ export default function CallListTable({ accounts, sortConfig, onSort }: CallList
     }
     return sorted;
   }, [accounts, sortConfig]);
+
+  if (sortedAccounts.length === 0) {
+    return (
+      <div className="p-4 text-center text-sm text-gray-500">
+        No accounts available to display.
+      </div>
+    );
+  }
 
   return (
     <div className="overflow-x-auto">
@@ -85,16 +100,22 @@ export default function CallListTable({ accounts, sortConfig, onSort }: CallList
                 {account.contact_name}
               </td>
               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                {format(new Date(account.last_contact_date), 'MMM d, yyyy')}
+                {account.last_contact_date
+                  ? format(new Date(account.last_contact_date), 'MMM d, yyyy')
+                  : 'N/A'}
               </td>
               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                {differenceInDays(new Date(), new Date(account.last_contact_date))} days
+                {account.last_contact_date
+                  ? `${differenceInDays(new Date(), new Date(account.last_contact_date))} days`
+                  : 'N/A'}
               </td>
               <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium">
                 <QuickActionButtons
-                  phone={account.phone}
-                  email={account.email}
-                  onSchedule={() => navigate('/appointments', { state: { selectedAccount: account } })}
+                  phone={account.phone || ''}
+                  email={account.email || ''}
+                  onSchedule={() =>
+                    navigate('/appointments', { state: { selectedAccount: account } })
+                  }
                 />
               </td>
             </tr>

@@ -1,11 +1,6 @@
 
-
 interface ImportMetaEnv {
-  VITE_GOOGLE_MAPS_API_KEY: string;
-}
-
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
+  readonly VITE_GOOGLE_MAPS_API_KEY: string;
 }
 
 interface ImportMeta {
@@ -13,13 +8,12 @@ interface ImportMeta {
 }
 
 interface Window {
-  [key: string]: any;
   _googleMapsCallback?: () => void;
 }
 
 export class GoogleMapsService {
   private static instance: GoogleMapsService;
-  private scriptLoaded: boolean = false;
+  private scriptLoaded = false;
   private loadPromise: Promise<void> | null = null;
   private apiKey: string;
 
@@ -37,46 +31,50 @@ export class GoogleMapsService {
     return GoogleMapsService.instance;
   }
 
-  async loadGoogleMaps(): Promise<void> {
+  public async loadGoogleMaps(): Promise<void> {
+    // Return immediately if the script is already loaded
     if (this.scriptLoaded) {
       return;
     }
 
+    // Return the existing promise if the script is in the process of loading
     if (this.loadPromise) {
       return this.loadPromise;
     }
 
     this.loadPromise = new Promise((resolve, reject) => {
-      // Add callback to window object
       const callbackName = '_googleMapsCallback';
-      (window as Window)[callbackName] = () => {
+
+      // Define the global callback function
+      window[callbackName] = () => {
         this.scriptLoaded = true;
         resolve();
-        delete (window as Window)[callbackName];
+        delete window[callbackName];
       };
 
-      // Load the script
+      // Create the script element
       const script = document.createElement('script');
       script.src = `https://maps.googleapis.com/maps/api/js?key=${this.apiKey}&libraries=places&callback=${callbackName}`;
       script.async = true;
       script.defer = true;
 
       script.onerror = () => {
-        delete (window as Window)[callbackName];
+        delete window[callbackName];
         reject(new Error('Failed to load Google Maps script'));
       };
 
+      // Append the script to the document head
       document.head.appendChild(script);
     });
 
     return this.loadPromise;
   }
 
-  isLoaded(): boolean {
+  public isLoaded(): boolean {
     return this.scriptLoaded;
   }
 
-  hasValidKey(): boolean {
+  public hasValidKey(): boolean {
     return Boolean(this.apiKey);
   }
 }

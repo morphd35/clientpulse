@@ -1,4 +1,4 @@
-import { } from '@heroicons/react/24/outline';
+import { PencilIcon, TrashIcon, CalendarIcon, PhoneIcon, EnvelopeIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import UpcomingAppointments from './components/UpcomingAppointments';
 import TodaysSummary from './components/TodaysSummary';
 import QuickActions from './components/QuickActions';
@@ -22,7 +22,16 @@ export default function Dashboard() {
 
         {/* Quick Actions (Side Column) */}
         <div className="lg:col-span-1 order-1 lg:order-2">
-          <QuickActions />
+          <QuickActions
+            icons={{
+              edit: PencilIcon,
+              delete: TrashIcon,
+              calendar: CalendarIcon,
+              phone: PhoneIcon,
+              email: EnvelopeIcon,
+              cancel: XMarkIcon, // Adding the Cancel Icon
+            }}
+          />
         </div>
       </div>
     </div>

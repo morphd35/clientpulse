@@ -22,55 +22,38 @@ export function useProfile() {
 
   async function fetchProfile() {
     try {
+      if (!user) throw new Error('User is null');
+
       setLoading(true);
       setError(null);
-      if (!user) {
-        throw new Error('User is null');
-      }
-      const profile = await profileService.getProfile(user.id);
-      setProfile(profile);
+
+      const fetchedProfile = await profileService.getProfile(user.id);
+      setProfile(fetchedProfile);
     } catch (err) {
-      console.error('Profile error:', err);
-      if (err instanceof Error) {
-        if (err instanceof Error) {
-          if (err instanceof Error) {
-            setError(err.message);
-          } else {
-            setError(String(err));
-          }
-        } else {
-          setError(String(err));
-        }
-      } else {
-        setError(String(err));
-      }
+      console.error('Error fetching profile:', err);
+      setError(err instanceof Error ? err.message : 'Failed to fetch profile');
     } finally {
       setLoading(false);
     }
   }
 
   async function updateProfile(updates: ProfileFormData) {
-    if (!user) {
-      throw new Error('User is null');
-    }
-
-
     try {
+      if (!user) throw new Error('User is null');
+
       setLoading(true);
       setError(null);
+
       const updatedProfile = await profileService.updateProfile(user.id, updates);
       setProfile(updatedProfile);
     } catch (err) {
-      setError(err.message);
-      throw err;
+      console.error('Error updating profile:', err);
+      setError(err instanceof Error ? err.message : 'Failed to update profile');
+      throw err; // Re-throw error for further handling if needed
     } finally {
       setLoading(false);
     }
   }
-  if (!user) {
-    throw new Error('User is null');
-  }
-
 
   return { profile, loading, error, updateProfile };
 }
