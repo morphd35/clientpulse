@@ -49,6 +49,10 @@ export function useProfile() {
       setLoading(false);
     }
   }
+  if (!user) {
+    throw new Error('User is null');
+  }
+
 
   return { profile, loading, error, updateProfile };
 }

@@ -27,7 +27,7 @@ export default function AppointmentEditForm({ appointment, onComplete, onCancel 
 
   async function checkAppointmentConflicts() {
     const appointmentDate = new Date(`${formData.date}T${formData.time}`);
-    
+
     const { data: existingAppointments } = await supabase
       .from('appointments')
       .select('*')
@@ -46,7 +46,7 @@ export default function AppointmentEditForm({ appointment, onComplete, onCancel 
     return conflictingAppointments;
   }
 
-  const handleSubmit = async (e: React.FormEvent, force: boolean = false) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>, force: boolean = false) => {
     e.preventDefault();
     if (!user) return;
 
@@ -63,15 +63,15 @@ export default function AppointmentEditForm({ appointment, onComplete, onCancel 
         }
       }
 
-      const appointmentDate = new Date(`${formData.date}T${formData.time}`);
 
+      const appointmentDate = new Date(`${formData.date}T${formData.time}`);
       const { error: updateError } = await supabase
         .from('appointments')
         .update({
           date: appointmentDate.toISOString(),
           duration: formData.duration,
           type: formData.type,
-          notes: formData.notes
+          notes: formData.notes,
         })
         .eq('id', appointment.id)
         .eq('user_id', user.id);
