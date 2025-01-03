@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../../../features/auth/hooks/useAuth';
 import { supabase } from '../../../lib/supabase';
 import { Appointment, AppointmentType } from '../../../types/appointment';
-import { checkForConflicts } from '../../../utils/appointment';
 import ConflictModal from './ConflictModal';
 
 interface AppointmentEditFormProps {
@@ -24,25 +23,6 @@ export default function AppointmentEditForm({ appointment, onComplete, onCancel 
   const [error, setError] = useState<string | null>(null);
   const [showConflictModal, setShowConflictModal] = useState(false);
   const [conflicts, setConflicts] = useState<Appointment[]>([]);
-
-  async function checkAppointmentConflicts() {
-    if (!user) {
-      console.error('User is not authenticated');
-      return [];
-    }
-
-    const appointmentDate = new Date(`${formData.date}T${formData.time}`);
-
-    const { data: existingAppointments } = await supabase
-      .from('appointments')
-      .select('*')
-      .eq('user_id', user.id)
-      .neq('id', appointment.id)
-      .gte('date', new Date(appointmentDate.getTime() - 24 * 60 * 60 * 1000).toISOString())
-      .lte('date', new Date(appointmentDate.getTime() + 24 * 60 * 60 * 1000).toISOString());
-
-    return checkForConflicts(existingAppointments || [], appointmentDate, formData.duration, appointment.id);
-  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>, force: boolean = false) => {
     e.preventDefault();
@@ -86,16 +66,62 @@ export default function AppointmentEditForm({ appointment, onComplete, onCancel 
     }
   };
 
+  const checkAppointmentConflicts = async () => {
+    if (!user) return [];
+
+    const appointmentDate = new Date(`${formData.date}T${formData.time}`);
+    const { data: existingAppointments } = await supabase
+      .from('appointments')
+      .select('*')
+      .eq('user_id', user.id)
+      .neq('id', appointment.id)
+      .gte('date', new Date(appointmentDate.getTime() - 24 * 60 * 60 * 1000).toISOString())
+      .lte('date', new Date(appointmentDate.getTime() + 24 * 60 * 60 * 1000).toISOString());
+
+    return (
+      existingAppointments?.filter((a) => {
+        const existingDate = new Date(a.date);
+        return (
+          Math.abs(existingDate.getTime() - appointmentDate.getTime()) < formData.duration * 60 * 1000
+        );
+      }) || []
+    );
+  };
+
   return (
     <>
       <form onSubmit={(e) => handleSubmit(e)} className="space-y-6">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          {/* Form Fields */}
+          <div>
+            <label htmlFor="date" className="block text-sm font-medium text-gray-700">
+              Date
+            </label>
+            <input
+              type="date"
+              id="date"
+              value={formData.date}
+              onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="time" className="block text-sm font-medium text-gray-700">
+              Time
+            </label>
+            <input
+              type="time"
+              id="time"
+              value={formData.time}
+              onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            />
+          </div>
         </div>
 
         {error && (
           <div className="rounded-md bg-red-50 p-4">
-            <p className="text-sm font-medium text-red-700">{error}</p>
+            <p className="text-sm text-red-700">{error}</p>
           </div>
         )}
 
@@ -103,14 +129,14 @@ export default function AppointmentEditForm({ appointment, onComplete, onCancel 
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-50"
+            className="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500"
+            className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm"
           >
             {loading ? 'Saving...' : 'Save Changes'}
           </button>

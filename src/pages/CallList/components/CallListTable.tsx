@@ -17,8 +17,12 @@ export default function CallListTable({ accounts, sortConfig, onSort }: CallList
 
   const sortedAccounts = useMemo(() => {
     const sorted = [...accounts];
+
     if (sortConfig.key) {
       sorted.sort((a, b) => {
+        const getValue = (account: Account, key: keyof Account) =>
+          account[key] === null || account[key] === undefined ? '' : account[key];
+
         if (sortConfig.key === 'daysSince') {
           const daysA = a.last_contact_date
             ? differenceInDays(new Date(), new Date(a.last_contact_date))
@@ -30,21 +34,20 @@ export default function CallListTable({ accounts, sortConfig, onSort }: CallList
         }
 
         if (sortConfig.key === 'last_contact_date') {
-          if (!a.last_contact_date || !b.last_contact_date) {
-            return sortConfig.direction === 'asc' ? -1 : 1;
-          }
-          return sortConfig.direction === 'asc'
-            ? new Date(a.last_contact_date).getTime() - new Date(b.last_contact_date).getTime()
-            : new Date(b.last_contact_date).getTime() - new Date(a.last_contact_date).getTime();
+          const dateA = a.last_contact_date ? new Date(a.last_contact_date).getTime() : 0;
+          const dateB = b.last_contact_date ? new Date(b.last_contact_date).getTime() : 0;
+          return sortConfig.direction === 'asc' ? dateA - dateB : dateB - dateA;
         }
 
-        const aValue = a[sortConfig.key as keyof Account];
-        const bValue = b[sortConfig.key as keyof Account];
+        const aValue = getValue(a, sortConfig.key as keyof Account);
+        const bValue = getValue(b, sortConfig.key as keyof Account);
+
         if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
         if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
         return 0;
       });
     }
+
     return sorted;
   }, [accounts, sortConfig]);
 
@@ -94,10 +97,10 @@ export default function CallListTable({ accounts, sortConfig, onSort }: CallList
           {sortedAccounts.map((account) => (
             <tr key={account.id}>
               <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
-                {account.business_name}
+                {account.business_name || 'N/A'}
               </td>
               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                {account.contact_name}
+                {account.contact_name || 'N/A'}
               </td>
               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                 {account.last_contact_date

@@ -1,8 +1,9 @@
-import { PencilIcon, TrashIcon, CalendarIcon, PhoneIcon, EnvelopeIcon, XMarkIcon } from '@heroicons/react/24/outline';
+// import React from 'react';
 import UpcomingAppointments from './components/UpcomingAppointments';
 import TodaysSummary from './components/TodaysSummary';
 import QuickActions from './components/QuickActions';
 import AppointmentMetrics from './components/AppointmentMetrics';
+import { PencilIcon, TrashIcon, CalendarIcon, PhoneIcon, EnvelopeIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 export default function Dashboard() {
   return (
@@ -29,7 +30,7 @@ export default function Dashboard() {
               calendar: CalendarIcon,
               phone: PhoneIcon,
               email: EnvelopeIcon,
-              cancel: XMarkIcon, // Adding the Cancel Icon
+              cancel: XMarkIcon,
             }}
           />
         </div>
